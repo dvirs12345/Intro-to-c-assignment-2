@@ -1,5 +1,6 @@
 #ifndef _MYBANK_H_
 #define _MYBANK_H_
+extern double[][] arr;
 void open();
 void balance();
 void deposit();
