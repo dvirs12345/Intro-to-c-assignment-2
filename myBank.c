@@ -98,7 +98,7 @@ void withdraw()
 	}
 }
 
-//
+// Gets and account number from the user and closes that account
 void close()
 {
 	int x;
@@ -115,6 +115,7 @@ void close()
 	}
 }
 
+// 
 void intrest()
 {
 	double x;
