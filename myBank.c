@@ -5,14 +5,16 @@
 #define CLOSED 0
 #define OPEN 1
 #define STATUS 0
-
-double arr [50][2] = {0}; // 0:status , 1:balance  
+#define ARRSIZE 50
+#define DIFFERENCE 901
+ 
+double arr [ARRSIZE][2] = {0}; // 0:status , 1:balance  
  
 // Gets a number from the user and opens an account, also deposits the amount the user inputed
 void open()
 {
 	int flag;
-	for(int i=0;i<50;i++)
+	for(int i=0;i<ARRSIZE;i++)
 	{
 		if(arr[i][STATUS] == CLOSED)
 		{
@@ -27,7 +29,7 @@ void open()
 		printf("Enter an amount to deposit: \n");
 		scanf("%lf", &x);  
 		arr[flag][BALANCE] = x;
-		printf("The account number is: %d\n", flag+901);
+		printf("The account number is: %d\n", flag+DIFFERENCE);
 	}
 	else
 	{
@@ -41,9 +43,9 @@ void balance()
 	int x;
 	printf("Enter the account number: \n");
 	scanf("%d", &x);
-	if(arr[x-901][STATUS] != CLOSED)
+	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
 	{
-		printf("The current balance is: %.2f\n",arr[x-901][BALANCE]);
+		printf("The current balance is: %.2f\n",arr[x-DIFFERENCE][BALANCE]);
 	}
 	else
 	{
@@ -60,10 +62,10 @@ void deposit()
 	double amount;
 	printf("Enter the amount you would like to deposit: \n");
 	scanf("%lf", &amount);
-	if(arr[x-901][STATUS] != CLOSED)
+	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
 	{
-		arr[x-901][BALANCE] += amount;
-		printf("Your updated balace is: %.2f\n",arr[x-901][BALANCE]);
+		arr[x-DIFFERENCE][BALANCE] += amount;
+		printf("Your updated balace is: %.2f\n",arr[x-DIFFERENCE][BALANCE]);
 	}
 	else
 	{
@@ -80,12 +82,12 @@ void withdraw()
 	double amount;
 	printf("Enter the amount you would like to withdraw: \n");
 	scanf("%lf", &amount);
-	if(arr[x-901][STATUS] != CLOSED)
+	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
 	{
-		if(arr[x-901][BALANCE] >= amount)
+		if(arr[x-DIFFERENCE][BALANCE] >= amount)
 		{
-			arr[x-901][BALANCE]-= amount;
-			printf("Your updated balace is: %.2f\n", arr[x-901][BALANCE]);
+			arr[x-DIFFERENCE][BALANCE]-= amount;
+			printf("Your updated balace is: %.2f\n", arr[x-DIFFERENCE][BALANCE]);
 		}
 		else
 		{
@@ -104,10 +106,10 @@ void close()
 	int x;
 	printf("Enter the account number: \n");
 	scanf("%d", &x);
-	if(arr[x-901][STATUS] != CLOSED)
+	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
 	{
-		arr[x-901][STATUS] = CLOSED;
-		arr[x-901][BALANCE] = 0;
+		arr[x-DIFFERENCE][STATUS] = CLOSED;
+		arr[x-DIFFERENCE][BALANCE] = 0;
 	}
 	else
 	{
@@ -115,33 +117,37 @@ void close()
 	}
 }
 
-// 
+// Gets an intrest rate and adds it to all balaces in the array 
 void intrest()
 {
 	double x;
 	printf("Enter the intrest rate: \n");
 	scanf("%lf", &x);
-	for(int i = 0; i<sizeof(arr);i++)
-	{
-		arr[i][BALANCE]+=arr[i][BALANCE]*x;
-	}
-}
-
-void print()
-{
-	for(int i = 0; i<sizeof(arr);i++)
+	for(int i = 0; i<ARRSIZE;i++)
 	{
 		if(arr[i][STATUS] == OPEN)
 		{
-			printf("The balance of account number %d is: %.2f\n",i+901,arr[i][BALANCE]);
+			arr[i][BALANCE]+=arr[i][BALANCE]*x;
+		}
+	}
+}
+
+// Prints the balace of all open 
+void print()
+{
+	for(int i = 0; i<ARRSIZE;i++)
+	{
+		if(arr[i][STATUS] == OPEN)
+		{
+			printf("The balance of account number %d is: %.2f\n",i+DIFFERENCE,arr[i][BALANCE]);
 		}
 	}	
 }
 
-
+// Closes all open accounts 
 void exit1()
 {
-	for(int i=0;i<50;i++)
+	for(int i=0;i<ARRSIZE;i++)
 	{
 		if(arr[i][STATUS] == OPEN)
 		{
