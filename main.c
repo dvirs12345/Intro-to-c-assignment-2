@@ -5,8 +5,6 @@
 
 int main()
 {
-	//Enter code here ↓↓
-	
 	char x = ' ';
 	while(1==1)
 	{
@@ -44,6 +42,10 @@ int main()
 		{
 			exit1();
 			break;
+		}
+		else
+		{
+			printf("Enter one of the following next time please: O,B,D,W,C,I,P,E \n");
 		}
 	}
 	

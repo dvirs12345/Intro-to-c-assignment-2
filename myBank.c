@@ -22,7 +22,7 @@ void open()
 			break;
 		}
 	}
-	if(flag<50)
+	if(flag<50&&flag>=0)
 	{
 		arr[flag][STATUS] = OPEN;
 		double x;
@@ -33,7 +33,7 @@ void open()
 	}
 	else
 	{
-		printf("Can't create account when 50 are already open\n");
+		printf("Can't create account\n");
 	}
 }
 
@@ -43,13 +43,20 @@ void balance()
 	int x;
 	printf("Enter the account number: \n");
 	scanf("%d", &x);
-	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+	if(x<951&&x>=900)
 	{
-		printf("The current balance is: %.2f\n",arr[x-DIFFERENCE][BALANCE]);
+		if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+		{
+			printf("The current balance is: %.2f\n",arr[x-DIFFERENCE][BALANCE]);
+		}
+		else
+		{
+			printf("Account doesn't exist!\n");
+		}
 	}
 	else
 	{
-		printf("Account doesn't exist!\n");
+		printf("Invalid account number\n");
 	}
 }
 
@@ -59,17 +66,24 @@ void deposit()
 	int x;
 	printf("Enter the account number: \n");
 	scanf("%d", &x);
-	double amount;
-	printf("Enter the amount you would like to deposit: \n");
-	scanf("%lf", &amount);
-	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+	if(x<951&&x>=900)
 	{
-		arr[x-DIFFERENCE][BALANCE] += amount;
-		printf("Your updated balace is: %.2f\n",arr[x-DIFFERENCE][BALANCE]);
+		if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+		{
+			double amount;
+			printf("Enter the amount you would like to deposit: \n");
+			scanf("%lf", &amount);
+			arr[x-DIFFERENCE][BALANCE] += amount;
+			printf("Your updated balace is: %.2f\n",arr[x-DIFFERENCE][BALANCE]);
+		}
+		else
+		{
+			printf("Account doesn't exist!\n");
+		}
 	}
 	else
 	{
-		printf("Account doesn't exist!\n");
+		printf("Invalid account number\n");
 	}
 }
 
@@ -79,24 +93,31 @@ void withdraw()
 	int x;
 	printf("Enter the account number: \n");
 	scanf("%d", &x);
-	double amount;
-	printf("Enter the amount you would like to withdraw: \n");
-	scanf("%lf", &amount);
-	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+	if(x<951&&x>=900)
 	{
-		if(arr[x-DIFFERENCE][BALANCE] >= amount)
+		if(arr[x-DIFFERENCE][STATUS] != CLOSED)
 		{
-			arr[x-DIFFERENCE][BALANCE]-= amount;
-			printf("Your updated balace is: %.2f\n", arr[x-DIFFERENCE][BALANCE]);
+			double amount;
+			printf("Enter the amount you would like to withdraw: \n");
+			scanf("%lf", &amount);
+			if(arr[x-DIFFERENCE][BALANCE] >= amount)
+			{
+				arr[x-DIFFERENCE][BALANCE]-= amount;
+				printf("Your updated balace is: %.2f\n", arr[x-DIFFERENCE][BALANCE]);
+			}
+			else
+			{
+				printf("Insufficient funds\n");
+			}
 		}
 		else
 		{
-			printf("Insufficient funds\n");
+			printf("Account does not exist!\n");
 		}
 	}
 	else
 	{
-		printf("Account does not exist!\n");
+		printf("Invalid account number\n");
 	}
 }
 
@@ -106,14 +127,21 @@ void close()
 	int x;
 	printf("Enter the account number: \n");
 	scanf("%d", &x);
-	if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+	if(x<951&&x>=900)
 	{
-		arr[x-DIFFERENCE][STATUS] = CLOSED;
-		arr[x-DIFFERENCE][BALANCE] = 0;
+		if(arr[x-DIFFERENCE][STATUS] != CLOSED)
+		{
+			arr[x-DIFFERENCE][STATUS] = CLOSED;
+			arr[x-DIFFERENCE][BALANCE] = 0;
+		}
+		else
+		{
+			printf("Account already closed\n");
+		}
 	}
 	else
 	{
-		printf("Account already closed\n");
+		printf("Invalid account number\n");
 	}
 }
 
@@ -121,15 +149,19 @@ void close()
 void intrest()
 {
 	double x;
-	printf("Enter the intrest rate: \n");
+	printf("Enter the intrest rate by precent: \n");
 	scanf("%lf", &x);
-	for(int i = 0; i<ARRSIZE;i++)
+	if(x>=0&&x<=100)
 	{
-		if(arr[i][STATUS] == OPEN)
+		for(int i = 0; i<ARRSIZE;i++)
 		{
-			arr[i][BALANCE]+=arr[i][BALANCE]*x;
+			if(arr[i][STATUS] == OPEN)
+			{
+				arr[i][BALANCE]+=arr[i][BALANCE]*(x/100);
+			}
 		}
 	}
+	
 }
 
 // Prints the balace of all open 
@@ -155,4 +187,5 @@ void exit1()
 			arr[i][BALANCE] = 0;
 		}
 	}
+	printf("Bye!\n");
 }

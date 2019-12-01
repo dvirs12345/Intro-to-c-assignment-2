@@ -4,24 +4,30 @@ OBJECTS_MAIN = main.o
 OBJECTS_LIB = myBank.o
 FLAGS= -Wall -g
 
-all: myBanklibary mains
+# Creates all the nessecery files 
+all: myBanklib mains
 
-myBanklibary:myBanklibary.a
+# Runs myBanklib.a segment
+myBanklib:myBanklib.a
 
-mains: main.o myBanklibary.a
-	$(CC) $(FLAGS) -o mains main.o myBanklibary.a
+# Creates mains
+mains: main.o myBanklib.a
+	$(CC) $(FLAGS) -o mains main.o myBanklib.a
 
-myBanklibary.a: myBank.o
-	$(AR) rcs -o myBanklibary.a myBank.o
+# Creates myBank.o
+myBanklib.a: myBank.o
+	$(AR) rcs -o myBanklib.a myBank.o
 
+# Links myBank.h and main.c
 main.o:myBank.h main.c
 	$(CC) $(FLAGS) -c -FPIC main.c
 
+# Compile myBank.c
 myBank.o:myBank.c
 	$(CC) $(FLAGS) -c -FPIC myBank.c
 
-.PHONY: all clean myBanklibary
+.PHONY: all clean myBanklib
 
-
+# Removes all .o,a,so and mains files
 clean:
-	rm -f *.o *.a *.so mains maind
+	rm -f *.o *.a *.so mains
