@@ -7,10 +7,10 @@ int main()
 {
 	//Enter code here ↓↓
 	
-	char x;
-	while(true)
+	char x = ' ';
+	while(1==1)
 	{
-		printf("What would you like to do? (O,B,D,W,C,I,P,E) ");
+		printf("What would you like to do? (O,B,D,W,C,I,P,E)\n");
 		scanf(" %c", &x);
 		if(x == 'O')
 		{
@@ -42,7 +42,7 @@ int main()
 		}
 		else if(x == 'E')
 		{
-			exit();
+			exit1();
 			break;
 		}
 	}

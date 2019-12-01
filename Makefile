@@ -1,36 +1,27 @@
 CC=gcc
 AR=ar
-OBJECTS_MAIN=main.o
-OBJECTS_LIB=myBank.o 
+OBJECTS_MAIN = main.o
+OBJECTS_LIB = myBank.o
 FLAGS= -Wall -g
 
-# Creates all the necessary files.
-all: libmyBank.so libmyBank.a mains maind	
+all: myBanklibary mains
 
-# Creates a static library containing the file objects
-mains: myBanks $(OBJECTS_MAIN) 
-	$(CC) $(FLAGS) -o mains $(OBJECTS_MAIN) libmyBank.a 
+myBanklibary:myBanklibary.a
 
-# Creates a shared library containing the file objects
-maind: myBankd $(OBJECTS_MAIN)
-	$(CC) $(FLAGS) -o maind $(OBJECTS_MAIN) ./libmyBank.so
+mains: main.o myBanklibary.a
+	$(CC) $(FLAGS) -o mains main.o myBanklibary.a
 
-# Creates a file that links main and the static library
-myBankd: $(OBJECTS_LIB)
-	$(CC) -shared -o libmyBank.so $(OBJECTS_LIB)
+myBanklibary.a: myBank.o
+	$(AR) rcs -o myBanklibary.a myBank.o
 
-# Creates a file that links main and the shared library
-myBanks: $(OBJECTS_LIB)
-	$(AR) -rcs libmyBank.a $(OBJECTS_LIB)	
+main.o:myBank.h main.c
+	$(CC) $(FLAGS) -c -FPIC main.c
 
-# Links myBank.c and myBank.h
-myBank.o: myBank.c myBank.h
-	$(CC) $(FLAGS) -fPIC -c myBank.c
+myBank.o:myBank.c
+	$(CC) $(FLAGS) -c -FPIC myBank.c
 
-# Links Main and .h
-main.o: main.c myBank.h  
-	$(CC) $(FLAGS) -c main.c 
+.PHONY: all clean myBanklibary
 
-# Removes all .o .a and .so files and mains and maind
+
 clean:
 	rm -f *.o *.a *.so mains maind
